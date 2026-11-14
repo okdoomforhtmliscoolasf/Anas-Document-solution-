@@ -1,1 +1,156 @@
-const menu=document.querySelector('.menu'),nav=document.querySelector('nav');if(menu&&nav)menu.onclick=()=>nav.classList.toggle('open');const cur=document.querySelector('.cursor');if(cur){addEventListener('pointermove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'});document.querySelectorAll('a,button,input').forEach(x=>{x.onmouseenter=()=>cur.classList.add('big');x.onmouseleave=()=>cur.classList.remove('big')})}document.querySelectorAll('.wordmark').forEach(el=>{let t=el.textContent;el.innerHTML='';[...t].forEach(c=>{let s=document.createElement('span');s.textContent=c===' '?' ':c;el.append(s)})});if('IntersectionObserver'in window){let ob=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');ob.unobserve(e.target)}}),{threshold:.08});document.querySelectorAll('.reveal').forEach(x=>ob.observe(x))}let q=document.querySelector('#serviceSearch'),cards=[...document.querySelectorAll('.card')],buttons=[...document.querySelectorAll('.filter')],active='all';function run(){if(!q)return;let n=0;cards.forEach(c=>{let ok=(active==='all'||c.dataset.cat===active)&&c.textContent.toLowerCase().includes(q.value.toLowerCase());c.hidden=!ok;if(ok)n++});let e=document.querySelector('.empty');if(e)e.hidden=n>0}if(q)q.oninput=run;buttons.forEach(b=>b.onclick=()=>{buttons.forEach(x=>x.classList.remove('active'));b.classList.add('active');active=b.dataset.filter;run()});let f=document.querySelector('#bookingForm');if(f)f.onsubmit=e=>{e.preventDefault();if(!f.reportValidity())return;let d=new FormData(f),m=`Hello Anas Documents Solution!%0AName: ${encodeURIComponent(d.get('name'))}%0APhone: ${encodeURIComponent(d.get('phone'))}%0AService: ${encodeURIComponent(d.get('service'))}%0ADetails: ${encodeURIComponent(d.get('details')||'Not specified')}%0AI would like to book a free appointment.`;location.href='https://wa.me/918652124770?text='+m};document.querySelectorAll('[data-year]').forEach(x=>x.textContent=new Date().getFullYear());
+(() => {
+  'use strict';
+
+  const menu = document.querySelector('.menu');
+  const nav = document.querySelector('header nav');
+
+  if (menu && nav) {
+    menu.addEventListener('click', () => {
+      const isOpen = menu.getAttribute('aria-expanded') === 'true';
+      menu.setAttribute('aria-expanded', String(!isOpen));
+      nav.classList.toggle('open', !isOpen);
+      menu.setAttribute('aria-label', isOpen ? 'Open navigation' : 'Close navigation');
+    });
+
+    nav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('open');
+        menu.setAttribute('aria-expanded', 'false');
+        menu.setAttribute('aria-label', 'Open navigation');
+      });
+    });
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        menu.setAttribute('aria-expanded', 'false');
+        menu.focus();
+      }
+    });
+  }
+
+  // A custom cursor is enabled only where a real mouse/trackpad cursor exists.
+  const canUseStarCursor = window.matchMedia &&
+    window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (canUseStarCursor) {
+    const cursor = document.querySelector('.star-cursor') || document.createElement('div');
+    cursor.className = 'star-cursor';
+    cursor.setAttribute('aria-hidden', 'true');
+    cursor.textContent = '✦';
+    if (!cursor.isConnected) document.body.appendChild(cursor);
+    document.documentElement.classList.add('has-star-cursor');
+
+    let moveFrame = 0;
+    let pointerX = 0;
+    let pointerY = 0;
+    window.addEventListener('pointermove', event => {
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+      if (moveFrame) return;
+      moveFrame = window.requestAnimationFrame(() => {
+        cursor.style.left = `${pointerX}px`;
+        cursor.style.top = `${pointerY}px`;
+        cursor.classList.add('visible');
+        moveFrame = 0;
+      });
+    }, { passive: true });
+
+    document.addEventListener('pointerout', event => {
+      if (!event.relatedTarget) cursor.classList.remove('visible');
+    });
+    document.addEventListener('pointerover', event => {
+      if (event.target.closest('a, button, input, textarea, select, label')) cursor.classList.add('hovering');
+      else cursor.classList.remove('hovering');
+    });
+    document.addEventListener('pointerdown', () => cursor.classList.add('hovering'));
+    document.addEventListener('pointerup', () => cursor.classList.remove('hovering'));
+  }
+
+  // Split the homepage wordmark into individually animated characters when present.
+  document.querySelectorAll('.wordmark').forEach(element => {
+    const text = element.textContent || '';
+    element.replaceChildren();
+    [...text].forEach(character => {
+      const span = document.createElement('span');
+      span.textContent = character === ' ' ? '\u00a0' : character;
+      element.appendChild(span);
+    });
+  });
+
+  // Progressive reveal; content stays visible if IntersectionObserver is unavailable.
+  const revealItems = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    revealItems.forEach(item => observer.observe(item));
+  } else {
+    revealItems.forEach(item => item.classList.add('in'));
+  }
+
+  // Service search and category filters.
+  const search = document.querySelector('#serviceSearch');
+  const cards = [...document.querySelectorAll('.card[data-cat]')];
+  const filters = [...document.querySelectorAll('.filter[data-filter]')];
+  let activeCategory = 'all';
+
+  function filterServices() {
+    const query = (search?.value || '').trim().toLocaleLowerCase();
+    let visibleCount = 0;
+    cards.forEach(card => {
+      const categoryMatches = activeCategory === 'all' || card.dataset.cat === activeCategory;
+      const textMatches = !query || card.textContent.toLocaleLowerCase().includes(query);
+      const visible = categoryMatches && textMatches;
+      card.hidden = !visible;
+      if (visible) visibleCount += 1;
+    });
+    const empty = document.querySelector('.empty');
+    if (empty) empty.hidden = visibleCount !== 0;
+  }
+
+  if (search) search.addEventListener('input', filterServices);
+  filters.forEach(button => {
+    button.addEventListener('click', () => {
+      activeCategory = button.dataset.filter || 'all';
+      filters.forEach(item => {
+        const selected = item === button;
+        item.classList.toggle('active', selected);
+        item.setAttribute('aria-pressed', String(selected));
+      });
+      filterServices();
+    });
+  });
+
+  // Create a correctly encoded WhatsApp message from the booking form.
+  const bookingForm = document.querySelector('#bookingForm');
+  if (bookingForm) {
+    bookingForm.addEventListener('submit', event => {
+      event.preventDefault();
+      if (!bookingForm.reportValidity()) return;
+
+      const formData = new FormData(bookingForm);
+      const message = [
+        'Hello Anas Documents Solution!',
+        `Name: ${formData.get('name') || ''}`,
+        `Phone: ${formData.get('phone') || ''}`,
+        `Service: ${formData.get('service') || ''}`,
+        `Details: ${formData.get('details') || 'Not specified'}`,
+        'I would like to book a free appointment.'
+      ].join('\n');
+
+      const whatsappUrl = `https://wa.me/918652124770?text=${encodeURIComponent(message)}`;
+      window.location.assign(whatsappUrl);
+    });
+  }
+
+  document.querySelectorAll('[data-year]').forEach(element => {
+    element.textContent = String(new Date().getFullYear());
+  });
+})();
