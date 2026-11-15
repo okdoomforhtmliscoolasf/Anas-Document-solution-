@@ -1,0 +1,30 @@
+/* Anas Documents Solution — functional appearance themes
+   Append this file's contents to the END of assets/style.css. */
+
+:root[data-style="editorial"] .bento-card{border-radius:4px;box-shadow:none;border:1px solid var(--line)}
+:root[data-style="editorial"] .bento-services,:root[data-style="editorial"] .bento-contact{background:var(--cream)}
+:root[data-style="editorial"] .bento-search{background:var(--cream-deep)}
+:root[data-style="editorial"] .bento-booking{background:var(--paper)}
+:root[data-style="editorial"] .hero-art{border-radius:4px;box-shadow:none}
+:root[data-style="editorial"] .brand-mark,:root[data-style="editorial"] .button,:root[data-style="editorial"] .nav-cta{border-radius:3px}
+
+:root[data-style="neomorphism"]{--shadow:9px 9px 18px #00000018,-9px -9px 18px #ffffffb8;--shadow-small:5px 5px 12px #00000018,-5px -5px 12px #ffffffb8;--inset:inset 4px 4px 9px #00000016,inset -4px -4px 9px #ffffffb8}
+:root[data-style="neomorphism"] .bento-card,:root[data-style="neomorphism"] .card,:root[data-style="neomorphism"] .info,:root[data-style="neomorphism"] .form{border:0;border-radius:26px}
+:root[data-style="neomorphism"] .hero-art{border-radius:34px}
+
+:root[data-style="neobrutalism"]{--ink:#171717;--accent:#171717;--clay-dark:#171717;--line:#171717;--shadow:7px 7px 0 #171717;--shadow-small:4px 4px 0 #171717;--inset:none}
+:root[data-style="neobrutalism"] .bento-card,:root[data-style="neobrutalism"] .card,:root[data-style="neobrutalism"] .info,:root[data-style="neobrutalism"] .form,:root[data-style="neobrutalism"] .hero-art{border:2px solid #171717;border-radius:5px;box-shadow:var(--shadow)}
+:root[data-style="neobrutalism"] .button,:root[data-style="neobrutalism"] .primary,:root[data-style="neobrutalism"] .nav-cta{border:2px solid #171717;border-radius:4px;box-shadow:3px 3px 0 #171717}
+
+:root[data-style="brutalism"]{--paper:#fff;--cream:#fff;--cream-deep:#eee;--ink:#000;--muted:#444;--accent:#000;--clay-dark:#000;--line:#000;--shadow:none;--shadow-small:none;--inset:none}
+:root[data-style="brutalism"] body{font-family:Arial,Helvetica,sans-serif}
+:root[data-style="brutalism"] .bento-card,:root[data-style="brutalism"] .card,:root[data-style="brutalism"] .info,:root[data-style="brutalism"] .form,:root[data-style="brutalism"] .hero-art{border:2px solid #000;border-radius:0;box-shadow:none}
+:root[data-style="brutalism"] .button,:root[data-style="brutalism"] .primary,:root[data-style="brutalism"] .nav-cta{border:2px solid #000;border-radius:0;box-shadow:none}
+
+:root[data-style="grunge"]{--paper:#c9bba5;--cream:#e3d7c4;--cream-deep:#d5c7b2;--ink:#332a22;--muted:#716253;--accent:#74543d;--clay-dark:#65462f;--line:#a99a85;--shadow:5px 7px 0 #51433330;--shadow-small:3px 4px 0 #51433325;--inset:inset 2px 3px 6px #51433320}
+:root[data-style="grunge"] body{background-image:repeating-linear-gradient(3deg,#6b594009 0 1px,transparent 1px 5px)}
+:root[data-style="grunge"] .bento-card,:root[data-style="grunge"] .card,:root[data-style="grunge"] .info,:root[data-style="grunge"] .form{border:1px solid #9b8971;border-radius:5px}
+
+:root[data-style="claymorphism"]{--shadow:12px 14px 24px #6b5a4525,-9px -9px 22px #ffffffb8;--shadow-small:7px 8px 15px #6b5a4520,-6px -6px 15px #ffffffb0;--inset:inset 3px 4px 8px #6b5a4517,inset -4px -4px 9px #ffffffb8}
+:root[data-style="claymorphism"] .bento-card,:root[data-style="claymorphism"] .card,:root[data-style="claymorphism"] .info,:root[data-style="claymorphism"] .form{border:1px solid #ffffff9c;border-radius:28px}
+:root[data-style="claymorphism"] .button,:root[data-style="claymorphism"] .primary,:root[data-style="claymorphism"] .nav-cta{border-radius:18px;box-shadow:var(--shadow-small)}

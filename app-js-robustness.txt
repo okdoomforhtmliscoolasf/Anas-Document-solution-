@@ -1,0 +1,20 @@
+ANAS DOCUMENTS SOLUTION — OPTIONAL APP.JS ROBUSTNESS FIX
+
+This prevents the whole app script from stopping if browser storage is blocked.
+In assets/app.js, add this immediately after the line:
+const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+ADD:
+const storage={
+  get(key){try{return window.localStorage.getItem(key)}catch{return null}},
+  set(key,value){try{window.localStorage.setItem(key,value)}catch{}}
+};
+
+Then make these four replacements:
+localStorage.setItem('ads-style',s)       -> storage.set('ads-style',s)
+localStorage.setItem('ads-palette',p)    -> storage.set('ads-palette',p)
+localStorage.getItem('ads-style')        -> storage.get('ads-style')
+localStorage.getItem('ads-palette')     -> storage.get('ads-palette')
+
+Do not replace any other text. This is a small compatibility improvement;
+the missing theme CSS in theme-fix.css is the main visual bug.
