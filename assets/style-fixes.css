@@ -1,0 +1,89 @@
+/* ANAS DOCUMENTS SOLUTION — FINAL REPAIR OVERRIDES
+   Append this entire file to the END of assets/style.css. */
+
+/* Real style rules: the JS already sets data-style, but the original CSS
+   did not define these selectors. */
+:root[data-style="editorial"] .bento-card,
+:root[data-style="editorial"] .card,
+:root[data-style="editorial"] .info,
+:root[data-style="editorial"] .form {
+  border-radius: 5px;
+  box-shadow: none;
+  border: 1px solid var(--line);
+}
+:root[data-style="editorial"] .hero-art { border-radius: 5px; box-shadow: none; }
+
+:root[data-style="neomorphism"] {
+  --shadow: 9px 9px 18px #00000018, -9px -9px 18px #ffffffb8;
+  --shadow-small: 5px 5px 12px #00000018, -5px -5px 12px #ffffffb8;
+  --inset: inset 4px 4px 9px #00000016, inset -4px -4px 9px #ffffffb8;
+}
+:root[data-style="neomorphism"] .bento-card,
+:root[data-style="neomorphism"] .card,
+:root[data-style="neomorphism"] .info,
+:root[data-style="neomorphism"] .form { border: 0; border-radius: 26px; }
+
+:root[data-style="neobrutalism"] {
+  --ink: #171717; --accent: #171717; --clay-dark: #171717; --line: #171717;
+  --shadow: 7px 7px 0 #171717; --shadow-small: 4px 4px 0 #171717; --inset: none;
+}
+:root[data-style="neobrutalism"] .bento-card,
+:root[data-style="neobrutalism"] .card,
+:root[data-style="neobrutalism"] .info,
+:root[data-style="neobrutalism"] .form {
+  border: 2px solid #171717; border-radius: 5px; box-shadow: var(--shadow);
+}
+:root[data-style="neobrutalism"] .button,
+:root[data-style="neobrutalism"] .primary { border: 2px solid #171717; border-radius: 4px; }
+
+:root[data-style="brutalism"] {
+  --paper: #fff; --cream: #fff; --cream-deep: #eee; --ink: #000; --muted: #444;
+  --accent: #000; --clay-dark: #000; --line: #000; --shadow: none; --shadow-small: none; --inset: none;
+}
+:root[data-style="brutalism"] .bento-card,
+:root[data-style="brutalism"] .card,
+:root[data-style="brutalism"] .info,
+:root[data-style="brutalism"] .form,
+:root[data-style="brutalism"] .hero-art { border: 2px solid #000; border-radius: 0; box-shadow: none; }
+
+:root[data-style="grunge"] {
+  --paper: #c9bba5; --cream: #e3d7c4; --cream-deep: #d5c7b2; --ink: #332a22;
+  --muted: #716253; --accent: #74543d; --clay-dark: #65462f; --line: #a99a85;
+  --shadow: 5px 7px 0 #51433330; --shadow-small: 3px 4px 0 #51433325;
+}
+:root[data-style="grunge"] .bento-card,
+:root[data-style="grunge"] .card,
+:root[data-style="grunge"] .info,
+:root[data-style="grunge"] .form { border: 1px solid #9b8971; border-radius: 5px; }
+
+:root[data-style="claymorphism"] {
+  --shadow: 12px 14px 24px #6b5a4525, -9px -9px 22px #ffffffb8;
+  --shadow-small: 7px 8px 15px #6b5a4520, -6px -6px 15px #ffffffb0;
+}
+:root[data-style="claymorphism"] .bento-card,
+:root[data-style="claymorphism"] .card,
+:root[data-style="claymorphism"] .info,
+:root[data-style="claymorphism"] .form { border: 1px solid #ffffff9c; border-radius: 28px; }
+
+/* Stop pointless rotations: all-click spin listener is removed in app.js. */
+.art-star, .contact-mark, .icon-spin { animation: none !important; }
+
+/* Text and content fit their own grid columns rather than pushing layouts. */
+.hero-copy, .card-bottom > div, .card > div:last-child, .info { min-width: 0; }
+.pagehead h1, .card h3, .card p, .info h3, .info p { overflow-wrap: anywhere; }
+.card h3 { line-height: 1.25; }
+.card p { max-width: 100%; }
+.hero-copy h1 { text-wrap: initial; }
+.form label { line-height: 1.35; }
+.form label .field-label { max-width: calc(100% - 28px); white-space: nowrap; }
+
+@media (max-width: 420px) {
+  .pagehead h1 { font-size: clamp(37px, 10vw, 48px); }
+  .hero-copy h1 { font-size: clamp(44px, 12vw, 56px); }
+  .card { gap: 11px; padding: 16px; }
+  .ico { width: 38px; height: 38px; flex-basis: 38px; }
+  .footer-bottom { flex-wrap: wrap; line-height: 1.6; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .art-star, .contact-mark, .paper-front { animation: none !important; }
+}
